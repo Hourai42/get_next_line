@@ -6,7 +6,7 @@
 /*   By: ttran <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 15:14:35 by ttran             #+#    #+#             */
-/*   Updated: 2017/12/31 18:05:05 by ttran            ###   ########.fr       */
+/*   Updated: 2018/01/01 14:07:48 by ttran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,18 @@ void	gtfoline(char *holder, char **line)
 
 	n = 0;
 	i = 0;
-	ft_putstr("Check the beginning of gtfoline\n");
 	free(*line);
 	while (holder[i] != '\n' && holder[i] != '\0')
 		i++;
 	*line = malloc(sizeof(char) * (i + 1));
-	*line[i] = '\0';
+	(*line)[i] = '\0';
 	i = 0;
 	while (holder[i] != '\n' && holder[i] != '\0')
 	{
-		*line[i] = holder[i];
+		(*line)[i] = holder[i];
 		i++;
 	}
-	tmp = malloc(sizeof(char) * ((ft_strlen(holder) - i) + 1)); 
+	tmp = malloc(sizeof(char) * (ft_strlen(holder) - i)); 
 	i++;
 	while (holder[i] != '\0')
 		tmp[n++] = holder[i++];
@@ -40,11 +39,12 @@ void	gtfoline(char *holder, char **line)
 	free(holder);
 	holder = ft_strdup(tmp);
 	free(tmp);
+	ft_putstr(holder);
+	write(1, "\n", 1);
 }
 
 int		spec_ops_the_line(char *holder, char **line)
 {
-	 ft_putstr("Check the beginning of spec ops\n");
 	if (ft_strchr(holder, '\n') != NULL)
 	{
 		gtfoline(holder, line);
@@ -52,6 +52,7 @@ int		spec_ops_the_line(char *holder, char **line)
 	}
 	else
 		gtfoline(holder, line);
+	free(holder);
 	return (0);
 }
 
@@ -61,9 +62,9 @@ int		get_next_line(const int fd, char **line)
 	char buffer[BUFF_SIZE + 1];
 	static char *arr[FD_LIMIT];
 
-	ft_putstr("Check the beginning of GNL\n");
 	if (fd == -1 || read(fd, buffer, 0) < 0 || !line)
 		return (-1);
+	br = 1;
 	*line = malloc(sizeof(char) * 42);
 	if (!(arr[fd]))
 		arr[fd] = ft_strnew(0); 
@@ -73,5 +74,7 @@ int		get_next_line(const int fd, char **line)
 		buffer[br] = '\0';
 		arr[fd] = ft_strjoin(arr[fd], buffer);
 	}
+	ft_putstr(arr[fd]);
+	write(1, "\n", 1);
 	return (spec_ops_the_line(arr[fd], line));
 }
