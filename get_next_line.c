@@ -6,13 +6,13 @@
 /*   By: ttran <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 15:14:35 by ttran             #+#    #+#             */
-/*   Updated: 2018/01/01 14:07:48 by ttran            ###   ########.fr       */
+/*   Updated: 2018/01/01 15:19:30 by ttran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	gtfoline(char *holder, char **line)
+void	gtfoline(char **holder, char **line)
 {
 	char *tmp;
 	int i;
@@ -21,38 +21,36 @@ void	gtfoline(char *holder, char **line)
 	n = 0;
 	i = 0;
 	free(*line);
-	while (holder[i] != '\n' && holder[i] != '\0')
+	while ((*holder)[i] != '\n' && (*holder)[i] != '\0')
 		i++;
 	*line = malloc(sizeof(char) * (i + 1));
 	(*line)[i] = '\0';
 	i = 0;
-	while (holder[i] != '\n' && holder[i] != '\0')
+	while ((*holder)[i] != '\n' && (*holder)[i] != '\0')
 	{
-		(*line)[i] = holder[i];
+		(*line)[i] = (*holder)[i];
 		i++;
 	}
-	tmp = malloc(sizeof(char) * (ft_strlen(holder) - i)); 
+	tmp = malloc(sizeof(char) * (ft_strlen(*holder) - i)); 
 	i++;
-	while (holder[i] != '\0')
-		tmp[n++] = holder[i++];
+	while ((*holder)[i] != '\0')
+		tmp[n++] = (*holder)[i++];
 	tmp[n] = '\0';
-	free(holder);
-	holder = ft_strdup(tmp);
+	free(*holder);
+	*holder = ft_strdup(tmp);
 	free(tmp);
-	ft_putstr(holder);
-	write(1, "\n", 1);
 }
 
-int		spec_ops_the_line(char *holder, char **line)
+int		spec_ops_the_line(char **holder, char **line)
 {
-	if (ft_strchr(holder, '\n') != NULL)
+	if (ft_strchr(*holder, '\n') != NULL)
 	{
 		gtfoline(holder, line);
 		return (1);
 	}
 	else
 		gtfoline(holder, line);
-	free(holder);
+	free(*holder);
 	return (0);
 }
 
@@ -74,7 +72,5 @@ int		get_next_line(const int fd, char **line)
 		buffer[br] = '\0';
 		arr[fd] = ft_strjoin(arr[fd], buffer);
 	}
-	ft_putstr(arr[fd]);
-	write(1, "\n", 1);
-	return (spec_ops_the_line(arr[fd], line));
+	return (spec_ops_the_line(&arr[fd], line));
 }
