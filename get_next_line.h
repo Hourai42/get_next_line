@@ -6,7 +6,7 @@
 /*   By: ttran <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/23 17:52:06 by ttran             #+#    #+#             */
-/*   Updated: 2018/01/01 15:17:24 by ttran            ###   ########.fr       */
+/*   Updated: 2018/01/02 14:13:10 by ttran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdlib.h>
 
 int	get_next_line(const int fd, char **line);
-int     spec_ops_the_line(char **holder, char **line);
-void    gtfoline(char **holder, char **line);
+int gtfoline(char **holder, char **line);
 
 #endif
